@@ -13,6 +13,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<ReportsList />} />
           <Route path="/add" element={<AddReport />} />
+          <Route path="/reports/edit/:id" element={<AddReport />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

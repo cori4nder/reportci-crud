@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import reportService from '../services/report.service';
 
 const AddReport = () => {
 
@@ -6,6 +8,49 @@ const AddReport = () => {
     const [description, setDescription] = useState('');
     const [place, setPlace] = useState('');
     const [priority, setPriority] = useState('');
+    const history = useNavigate();
+    const { id } = useParams();
+
+    const saveReport = (e) => {
+        e.preventDefault();
+
+        const report = { title, description, place, priority, id };
+
+        if (id) {
+            reportService.update(report)
+                .then(response => {
+                    console.log('Report updated successfully', response.data);
+                    history('/');
+                })
+                .catch(error => {
+                    console.log('Something went wrong', error);
+                })
+        } else {
+            reportService.create(report)
+                .then(response => {
+                    console.log('Report created successfully', response.data);
+                    history('/');
+                })
+                .catch(error => {
+                    console.log('Something went wrong', error);
+                });
+        }
+    }
+
+    useEffect(() => {
+        if (id) {
+            reportService.get(id)
+                .then(report => {
+                    setTitle(report.data.title);
+                    setDescription(report.data.description);
+                    setPlace(report.data.place);
+                    setPriority(report.data.priority);
+                })
+                .catch(error => {
+                    console.log('Something went wrong', error);
+                })
+        }
+    }, [])
 
     return (
         <div className="container">
@@ -53,9 +98,11 @@ const AddReport = () => {
                     />
                 </div>
                 <div>
-                    <button className="btn btn-primary"> Save </button>
+                    <button className="btn btn-primary" onClick={(e) => saveReport(e)}> Save </button>
                 </div>
             </form>
+            <hr />
+            <Link to="/"> Back to Reports </Link>
         </div>
     );
 }

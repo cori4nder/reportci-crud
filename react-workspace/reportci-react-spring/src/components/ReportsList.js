@@ -31,6 +31,7 @@ const ReportsList = () => {
                             <th>Description</th>
                             <th>Place</th>
                             <th>Priority</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,6 +42,9 @@ const ReportsList = () => {
                                     <td>{report.description}</td>
                                     <td>{report.place}</td>
                                     <td>{report.priority}</td>
+                                    <td>
+                                        <Link className="btn btn-info" to={`/reports/edit/${report.id}`}>Update</Link>
+                                    </td>
                                 </tr>
                             ))
                         }
