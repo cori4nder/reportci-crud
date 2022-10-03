@@ -17,5 +17,9 @@ const get = (id) => {
 const update = (data) => {
     return httpClient.put('/reports', data);
 }
+
+const remove = (id) => {
+    return httpClient.delete(`/reports/${id}`);
+}
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create, get, update };
+export default { getAll, create, get, update, remove };

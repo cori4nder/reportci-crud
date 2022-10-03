@@ -8,6 +8,10 @@ const ReportsList = () => {
     const [reports, setReports] = useState([]);
 
     useEffect(() => {
+        init();
+    }, [])
+
+    const init = () => {
         reportService.getAll()
             .then(response => {
                 console.log('Printing the report data', response.data);
@@ -16,7 +20,18 @@ const ReportsList = () => {
             .catch(error => {
                 console.log('Something went wrong', error);
             })
-    }, [])
+    }
+
+    const handleDelete = (id) => {
+        reportService.remove(id)
+            .then(response => {
+                console.log('Report deleted successfully', response.data);
+                init();
+            })
+            .catch(error => {
+                console.log('Something went wrong', error);
+            })
+    }
 
     return (
         <div className="container">
@@ -44,6 +59,7 @@ const ReportsList = () => {
                                     <td>{report.priority}</td>
                                     <td>
                                         <Link className="btn btn-info" to={`/reports/edit/${report.id}`}>Update</Link>
+                                        <button className="btn btn-danger ml-2" onClick={(e) => { handleDelete(report.id) }}> Delete </button>
                                     </td>
                                 </tr>
                             ))
